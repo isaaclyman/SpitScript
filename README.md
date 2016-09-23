@@ -43,6 +43,9 @@ console get log got this bruh with the pusher, yeah well
 okay
 ```
 
+## How do I run SpitScript?
+Load `tokenizer.js`, `parser.js`, `generator.js` and `compiler.js` in `<script>` tags, then run `window.ss.compile(source)`, where `source` is the source text of your SpitScript. It will be transpiled and evaluated immediately.
+
 ## How can I learn SpitScript?
 A tutorial is coming. In the meantime, check out `parser.js` to get a basic idea of what words are useful in the language.
 
