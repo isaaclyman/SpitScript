@@ -28,7 +28,7 @@
     'LOOPWHILE': 'while ',
     'MATHMINUS': '-',
     'MATHPLUS': '+',
-    'NEW': 'new',
+    'NEW': 'new ',
     'PAREN': '(',
     'PARENEND': ')',
     'REFINE': '[',

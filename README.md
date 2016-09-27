@@ -16,14 +16,14 @@ Someone gasps. Maybe everyone. "But dear," mother says kindly. "You're so *good*
 
 You push yourself away from the table. "Excuse me," you say. "I'm not hungry any more." You tear yourself away from a sea of staring eyes and run to the bathroom.
 
-It would be so easy to give up on your dreams, sign a record deal and spend the rest of your life in the studio, dropping truth. But something inside of you says *no*. You were meant to be a programmer.
+It would be so easy to give up on your dreams, sign a record deal and spend the rest of your life dropping truth in the studio. But something inside of you says *no*. You were meant to be a programmer.
 
 Well, **SpitScript is here for you.**
 
-## What is SpitScript?
+### What is SpitScript?
 SpitScript is a transpiler. It transforms a special set of words common in rap music to JavaScript. Its lexical structure is identical to JavaScript and it's easy to learn.
 
-## What is the purpose of SpitScript?
+### What is the purpose of SpitScript?
 SpitScript allows you to write JavaScript that looks like rap lyrics. Finally, you can code to your heart's content regardless of the location -- everyone will think you're just writing a slightly incoherent rap song.
 
 For example, the following SpitScript program prints the first ten Fibonacci numbers to the console:
@@ -43,17 +43,77 @@ console get log got this bruh with the pusher, yeah well
 okay
 ```
 
-## How do I run SpitScript?
+### How do I run SpitScript?
 Load `tokenizer.js`, `parser.js`, `generator.js` and `compiler.js` in `<script>` tags, then run `window.ss.compile(source)`, where `source` is the source text of your SpitScript. It will be transpiled and evaluated immediately.
 
-## How can I learn SpitScript?
+### How can I learn SpitScript?
 A tutorial is coming. In the meantime, check out `parser.js` to get a basic idea of what words are useful in the language.
 
+## FAQ
+
+### How did this project come about?
+I was bored. I'm a programmer by profession but I enjoy listening to and writing rap music. This is the collision of those worlds.
+
+### Do you accept pull requests?
+I will accept almost any pull request that adds incremental functionality, follows the style of the project, aligns with good coding practices, and does not introduce bugs. Patch away. Please make sure your commit message is less than 129340812408 characters and includes at least one "fire" emoji. 🔥
+
+### Can I expand the language?
+Sure, if you can make a case for your expansion. A bunch of new "IGNORED" terminals aren't likely to be accepted unless they add value.
+
+### Does SpitScript implement a complete set of JavaScript language features?
+Not currently. However, it's almost certainly Turing-complete and covers most use cases. I intend to write a small Angular app with it soon.
+
+### Does the syntax have any quirks I should know about?
 Most symbols are ignored. Numbers and unrecognized words are transcribed literally into the resulting syntax. Plenty of ignored words are provided in order for you to form grammatically complete (or incomplete) rap lyrics.
 
 String literals can be created using either single or double quotes. In order to escape a single or double quote, prefix it with two backslashes. For example, the following short program prints `Elmo's world` to the browser console:
 
 `console get log this 'Elmo\\'s world' well`
 
-## How did this project come about?
-I was bored. I'm a programmer by profession but I enjoy listening to and writing rap music -- this is the collision of those worlds.
+## Quick reference
+From `parser.js`:
+
+```javascript
+'ARRAY': ['lot', 'lotta'],
+'ARRAYEND': ['stuff'],
+'ASSIGNMENT': ['be', 'is'],
+'BLOCK': ['then', 'piece'],
+'BLOCKEND': ['okay'],
+'BLOCKCOMMENT': ['listen'],
+'BLOCKCOMMENTEND': ['right'],
+'COMMA': ['and'],
+'COMPEQ': ['like'],
+'COMPGREATER': ['more', 'mo'],
+'COMPGREATEREQ': ['over'],
+'COMPLESS': ['less'],
+'COMPLESSEQ': ['under'],
+'COMPNOT': ['ain\'t', 'isn\'t'],
+'CONDITIONELSE': ['disagree', 'disrespect'],
+'CONDITIONIF': ['sayin', 'saying'],
+'DECLARATION': ['big', 'lil', 'those', 'who'],
+'DELETION': ['rid', 'ridda'],
+'FUNCTION': ['business'],
+'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],
+'LINECOMMENT': ['cuz', 'so'],
+'LOGICAND': ['also'],
+'LOGICNOT': ['not'],
+'LOGICOR': ['or'],
+'LOOPFOR': ['rollin', 'rolling'],
+'LOOPWHILE': ['always', 'keep'],
+'MATHMINUS': ['smaller'],
+'MATHPLUS': ['bigger'],
+'NEW': ['get', 'make'],
+'PAREN': ['this', 'these'],
+'PARENEND': ['well'],
+'REFINE': ['with'],
+'REFINEEND': ['yeah'],
+'REFINEDOT': ['get', 'gotta'],
+'RETURN': ['rep', 'represent', 'show'],
+'SEMICOLON': ['uh'],
+'THIS': ['crib', 'here'],
+'VALNULL': ['nah'],
+'VALONE': ['one'],
+'VALTWO': ['two'],
+'VALUNDEFINED': ['unreal'],
+'VALZERO': ['nothin', 'nothing']
+```
