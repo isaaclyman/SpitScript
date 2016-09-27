@@ -49,7 +49,11 @@ Load `tokenizer.js`, `parser.js`, `generator.js` and `compiler.js` in `<script>`
 ## How can I learn SpitScript?
 A tutorial is coming. In the meantime, check out `parser.js` to get a basic idea of what words are useful in the language.
 
-All symbols are ignored; numbers and unrecognized words are transcribed literally into the resulting syntax; and plenty of ignored words are provided in order for you to form grammatically complete (or incomplete) rap lyrics.
+Most symbols are ignored. Numbers and unrecognized words are transcribed literally into the resulting syntax. Plenty of ignored words are provided in order for you to form grammatically complete (or incomplete) rap lyrics.
+
+String literals can be created using either single or double quotes. In order to escape a single or double quote, prefix it with two backslashes. For example, the following short program prints `Elmo's world` to the browser console:
+
+`console get log this 'Elmo\\'s world' well`
 
 ## How did this project come about?
-I was bored. I'm a programmer by profession but I enjoy listening to and writing rap music -- this is the collision of those things in my mind.
+I was bored. I'm a programmer by profession but I enjoy listening to and writing rap music -- this is the collision of those worlds.

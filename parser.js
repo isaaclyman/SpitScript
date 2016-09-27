@@ -82,12 +82,21 @@
     var current = 0;
 
     function walk() {
-      // Types are: NUMBER, WORD, TOKEN
+      // Types are: NEWLINE, QUOTE, NUMBER, TOKEN, WORD
       var token = tokens[current];
+
+      if (!token) {
+        throw new Error('Parser had a problem. A token was undefined. Previous token: [' + tokens[current - 1].type + ' ' + tokens[current-1].value + ']');
+      }
 
       if (token.type === 'NEWLINE') {
         current++;
         return createNode('NEWLINE');
+      }
+
+      if (token.type === 'QUOTE') {
+        current++;
+        return createNode('QUOTE', token.value);
       }
 
       if (token.type === 'NUMBER') {

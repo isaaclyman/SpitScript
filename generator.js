@@ -56,6 +56,7 @@
         return '\n';
       case 'NAME':
       case 'NUMBER':
+      case 'QUOTE':
         return node.value;
       case 'TOKEN':
         return '';

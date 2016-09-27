@@ -4,7 +4,8 @@
   var types = {
     'NEWLINE': /[\n\r]/,
     'NUMBER': /[0-9\.]/,
-    'TOKEN': /[^a-zA-Z0-9$_\s]/,
+    'QUOTE': /['"]/,
+    'TOKEN': /[^a-zA-Z0-9$_'"\s]/,
     'WHITESPACE': /\s/,
     'WORD': /[a-zA-Z0-9$_']/,
     'WORDSTART': /[a-zA-Z$_]/
@@ -17,7 +18,7 @@
 
     var current = 0;
     var tokens = [];
-    var char, value;
+    var char, value, endquote;
 
     while (current < input.length) {
       char = input[current];
@@ -40,6 +41,29 @@
         }
 
         tokens.push(createToken('NUMBER', value));
+        continue;
+      }
+
+      if (types.QUOTE.test(char)) {
+        endquote = char;
+        value = char;
+        char = input[++current];
+
+        while (char !== endquote && char !== undefined) {
+          if (char == '\\') {
+            // If an escape slash is encountered, add it along with the subsequent character and do not test it to see if it is a quote.
+            value += char;
+            char = input[++current];
+          }
+
+          value += char;
+          char = input[++current];
+        }
+
+        value += char;
+        current++;
+
+        tokens.push(createToken('QUOTE', value));
         continue;
       }
 

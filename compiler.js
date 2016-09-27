@@ -14,7 +14,10 @@
   }
 
   window.ss.compile = function(source) {
-    window.eval(window.ss.generate(window.ss.parse(window.ss.tokenize(source))));
+    var tokens = window.ss.tokenize(source);
+    var ast = window.ss.parse(tokens);
+    var code = window.ss.generate(ast);
+    window.eval(code);
   };
 
 })(window);
