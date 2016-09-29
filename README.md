@@ -66,6 +66,9 @@ If you're having trouble getting your code to work, call `window.ss.compile` wit
 
 ## FAQ
 
+### Is SpitScript broken?
+Yeah, some things are broken. I'm working on it.
+
 ### How did this project come about?
 I was bored. I'm a programmer by profession but I enjoy listening to and writing rap music. This is the collision of those worlds.
 
