@@ -13,10 +13,15 @@
     throw new Error('SpitScript Generator has not been loaded.');
   }
 
-  window.ss.compile = function(source) {
-    var tokens = window.ss.tokenize(source);
-    var ast = window.ss.parse(tokens);
-    var code = window.ss.generate(ast);
+  window.ss.compile = function(source, isDebug) {
+    var tokens = window.ss.tokenize(source, isDebug);
+    var ast = window.ss.parse(tokens, isDebug);
+    var code = window.ss.generate(ast, isDebug);
+
+    if (isDebug) {
+      console.log('CODE: ', code);
+    }
+
     window.eval(code);
   };
 

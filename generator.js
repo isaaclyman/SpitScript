@@ -44,14 +44,21 @@
     'VALZERO': '0'
   };
 
-  window.ss.generate = function(node) {
+  window.ss.generate = function(node, isDebug) {
     /*
     Heavily inspired by @thejameskyle: https://github.com/thejameskyle/the-super-tiny-compiler/blob/master/super-tiny-compiler.js
     */
 
+    if (isDebug) {
+      console.log(node);
+    }
+
     switch (node.type) {
       case 'PROGRAM':
-        return node.body.map(window.ss.generate).join('');
+        if (isDebug) {
+          console.log('GENERATOR...');
+        }
+        return node.body.map(function (el) { return window.ss.generate(el, isDebug); }).join('');
       case 'NEWLINE':
         return '\n';
       case 'NAME':
@@ -69,7 +76,7 @@
     }
 
     if (node.children && node.children.length) {
-      word += node.children.map(window.ss.generate).join('');
+      word += node.children.map(function (el) { return window.ss.generate(el, isDebug); }).join('');
     }
 
     return word;

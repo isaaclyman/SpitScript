@@ -2,48 +2,49 @@
   window.ss = window.ss || {};
 
   var wordTypes = {
-    'ARRAY': ['lot', 'lotta'],
-    'ARRAYEND': ['stuff'],
-    'ASSIGNMENT': ['be', 'is'],
-    'BLOCK': ['then', 'piece'],
-    'BLOCKEND': ['okay'],
-    'BLOCKCOMMENT': ['listen'],
-    'BLOCKCOMMENTEND': ['right'],
-    'COMMA': ['and'],
-    'COMPEQ': ['like'],
-    'COMPGREATER': ['more', 'mo'],
-    'COMPGREATEREQ': ['over'],
-    'COMPLESS': ['less'],
-    'COMPLESSEQ': ['under'],
-    'COMPNOT': ['ain\'t', 'isn\'t'],
-    'CONDITIONELSE': ['disagree', 'disrespect'],
-    'CONDITIONIF': ['sayin', 'saying'],
-    'DECLARATION': ['big', 'lil', 'those', 'who'],
-    'DELETION': ['rid', 'ridda'],
-    'FUNCTION': ['business'],
+    'ARRAY': ['lot', 'lotta'],          // [ (array)
+    'ARRAYEND': ['stuff'],              // ]
+    'ASSIGNMENT': ['be', 'is'],         // =
+    'BLOCK': ['then', 'piece'],         // {
+    'BLOCKEND': ['okay'],               // }
+    'BLOCKCOMMENT': ['listen'],         // /*
+    'BLOCKCOMMENTEND': ['right'],       // */
+    'COMMA': ['and'],                   // ,
+    'COMPEQ': ['like'],                 // ===
+    'COMPGREATER': ['more', 'mo'],      // >
+    'COMPGREATEREQ': ['over'],          // >=
+    'COMPLESS': ['less'],               // <
+    'COMPLESSEQ': ['under'],            // <=
+    'COMPNOT': ['ain\'t', 'isn\'t'],    // !==
+    'CONDITIONELSE': ['disagree', 'disrespect'],        // else
+    'CONDITIONIF': ['sayin', 'saying'],                 // if
+    'DECLARATION': ['big', 'lil', 'those', 'who'],      // var
+    'DELETION': ['rid', 'ridda'],       // delete
+    'FUNCTION': ['business'],           // function
+    // Ignored tokens are not parsed:
     'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],
-    'LINECOMMENT': ['cuz', 'so'],
-    'LOGICAND': ['also'],
-    'LOGICNOT': ['not'],
-    'LOGICOR': ['or'],
-    'LOOPFOR': ['rollin', 'rolling'],
-    'LOOPWHILE': ['always', 'keep'],
-    'MATHMINUS': ['smaller'],
-    'MATHPLUS': ['bigger'],
-    'NEW': ['get', 'make'],
-    'PAREN': ['this', 'these'],
-    'PARENEND': ['well'],
-    'REFINE': ['with'],
-    'REFINEEND': ['yeah'],
-    'REFINEDOT': ['get', 'gotta'],
-    'RETURN': ['rep', 'represent', 'show'],
-    'SEMICOLON': ['uh'],
-    'THIS': ['crib', 'here'],
-    'VALNULL': ['nah'],
-    'VALONE': ['one'],
-    'VALTWO': ['two'],
-    'VALUNDEFINED': ['unreal'],
-    'VALZERO': ['nothin', 'nothing']
+    'LINECOMMENT': ['cuz', 'so'],       // // (comment)
+    'LOGICAND': ['also'],               // &&
+    'LOGICNOT': ['not'],                // !
+    'LOGICOR': ['or'],                  // ||
+    'LOOPFOR': ['rollin', 'rolling'],   // for
+    'LOOPWHILE': ['always', 'keep'],    // while
+    'MATHMINUS': ['smaller'],           // -
+    'MATHPLUS': ['bigger'],             // +
+    'NEW': ['get', 'make'],             // new
+    'PAREN': ['this', 'these'],         // (
+    'PARENEND': ['well'],               // )
+    'REFINE': ['with'],                 // [ (object property access)
+    'REFINEEND': ['yeah'],              // ]
+    'REFINEDOT': ['get', 'gotta'],      // . (object property access)
+    'RETURN': ['rep', 'represent', 'show'],             // return
+    'SEMICOLON': ['uh'],                // ;
+    'THIS': ['crib', 'here'],           // this
+    'VALNULL': ['nah'],                 // null
+    'VALONE': ['one'],                  // 1
+    'VALTWO': ['two'],                  // 2
+    'VALUNDEFINED': ['unreal'],         // undefined
+    'VALZERO': ['nothin', 'nothing']    // 0
   };
 
   var childrenTypes = {
@@ -75,15 +76,23 @@
     return wordsDict;
   })(wordTypes);
 
-  window.ss.parse = function(tokens) {
+  window.ss.parse = function(tokens, isDebug) {
     /*
     Heavily inspired by @thejameskyle: https://github.com/thejameskyle/the-super-tiny-compiler/blob/master/super-tiny-compiler.js
     */
     var current = 0;
 
+    if (isDebug) {
+      console.log('PARSER...');
+    }
+
     function walk() {
       // Types are: NEWLINE, QUOTE, NUMBER, TOKEN, WORD
       var token = tokens[current];
+
+      if (isDebug) {
+        console.log(current + ': ', token);
+      }
 
       if (!token) {
         throw new Error('Parser had a problem. A token was undefined. Previous token: [' + tokens[current - 1].type + ' ' + tokens[current-1].value + ']');
@@ -165,6 +174,10 @@
 
     while (current < tokens.length) {
       ast.body.push(walk());
+    }
+
+    if (isDebug) {
+      console.log('PARSED AST: ', ast);
     }
 
     return ast;

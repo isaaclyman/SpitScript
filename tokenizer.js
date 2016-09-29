@@ -11,7 +11,7 @@
     'WORDSTART': /[a-zA-Z$_]/
   };
 
-  window.ss.tokenize = function(input) {
+  window.ss.tokenize = function(input, isDebug) {
     /*
     Heavily inspired by @thejameskyle: https://github.com/thejameskyle/the-super-tiny-compiler/blob/master/super-tiny-compiler.js
     */
@@ -19,6 +19,10 @@
     var current = 0;
     var tokens = [];
     var char, value, endquote;
+
+    if (isDebug) {
+      console.log('TOKENIZER...')
+    }
 
     while (current < input.length) {
       char = input[current];
@@ -86,6 +90,10 @@
       }
 
       throw new Error('Tokenizer had a problem. Unrecognized character: ' + char);
+    }
+
+    if (isDebug) {
+      console.log('TOKENS: ', tokens);
     }
 
     return tokens;

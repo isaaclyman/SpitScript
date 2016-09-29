@@ -46,8 +46,23 @@ okay
 ### How do I run SpitScript?
 Load `tokenizer.js`, `parser.js`, `generator.js` and `compiler.js` in `<script>` tags, then run `window.ss.compile(source)`, where `source` is the source text of your SpitScript. It will be transpiled and evaluated immediately.
 
-### How can I learn SpitScript?
-A tutorial is coming. In the meantime, check out `parser.js` to get a basic idea of what words are useful in the language.
+### How does it work?
+The transpiler is based on James Kyle's [Super Tiny Compiler](https://github.com/thejameskyle/the-super-tiny-compiler), licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Perhaps 10% of my codebase at present is drawn directly from that project. If you haven't checked it out, you should do so right away. It's a superb introduction to what compilers and transpilers do. (James Kyle does not endorse SpitScript.)
+
+Essentially, the transpiler takes the source text and reads it one character at a time, grouping words, numbers and symbols along the way. Then it transforms the list into a hierarchy of "nodes" (top-level code elements) and "children" (groups of nodes that fit inside of other elements, like commands inside a block). Finally, it reads the hierarchy recursively, generating JavaScript for each node.
+
+## Language Quickstart
+Assuming you know JavaScript, learning SpitScript will be easy. Most of the words and symbols that have special meaning in JavaScript (`{`, `this`, `null`, `<=` and so forth) are aliased in SpitScript using a single discrete word. String together a bunch of reserved words with spaces between them and you have a SpitScript program (which may or may not be valid. Don't forget to close your parentheses).
+
+`parser.js` is the heart of the language spec. At the top of it (or in the Quick Reference at the bottom of this page) you'll find a simple dictionary where each key is a language feature and each value is an array of reserved words that map to that feature.
+
+Most symbols are ignored. Numbers and unrecognized words are transcribed literally into the resulting syntax. Plenty of ignored words are provided in order for you to form grammatically complete (or incomplete) rap lyrics.
+
+String literals can be created using either single or double quotes. In order to escape a single or double quote, prefix it with two backslashes. For example, the following short program prints `Elmo's world` to the browser console:
+
+`console get log this 'Elmo\\'s world' well`
+
+If you're having trouble getting your code to work, call `window.ss.compile` with `true` as the second parameter. This will enable copious amounts of debugging output in the browser console.
 
 ## FAQ
 
@@ -60,60 +75,65 @@ I will accept almost any pull request that adds incremental functionality, follo
 ### Can I expand the language?
 Sure, if you can make a case for your expansion. A bunch of new "IGNORED" terminals aren't likely to be accepted unless they add value.
 
+### How hard would it be to implement a new language starting from a SpitScript fork?
+Very, very easy. The language's reserved words are all defined at the very top of `parser.js`. You could easily create your own (similarly structured/obfuscated) language by modifying these words. For example, you could make a language that masquerades as sports commentary instead of rap lyrics. There are as many possibilities as there are stereotypical niche vocabularies.
+
+Additionally, with a bit of under-the-hood work in the tokenizer and generator, you could transpile your source text to any number of different target languages.
+
 ### Does SpitScript implement a complete set of JavaScript language features?
-Not currently. However, it's almost certainly Turing-complete and covers most use cases. I intend to write a small Angular app with it soon.
+Not currently. However, it's Turing-complete and covers most use cases.
 
-### Does the syntax have any quirks I should know about?
-Most symbols are ignored. Numbers and unrecognized words are transcribed literally into the resulting syntax. Plenty of ignored words are provided in order for you to form grammatically complete (or incomplete) rap lyrics.
-
-String literals can be created using either single or double quotes. In order to escape a single or double quote, prefix it with two backslashes. For example, the following short program prints `Elmo's world` to the browser console:
-
-`console get log this 'Elmo\\'s world' well`
+### What is the target language?
+JavaScript per the ES5 spec (as of this writing, the latest version of JavaScript with cross-browser support). ES6 features aren't on the roadmap at all.
 
 ## Quick reference
 From `parser.js`:
 
 ```javascript
-'ARRAY': ['lot', 'lotta'],
-'ARRAYEND': ['stuff'],
-'ASSIGNMENT': ['be', 'is'],
-'BLOCK': ['then', 'piece'],
-'BLOCKEND': ['okay'],
-'BLOCKCOMMENT': ['listen'],
-'BLOCKCOMMENTEND': ['right'],
-'COMMA': ['and'],
-'COMPEQ': ['like'],
-'COMPGREATER': ['more', 'mo'],
-'COMPGREATEREQ': ['over'],
-'COMPLESS': ['less'],
-'COMPLESSEQ': ['under'],
-'COMPNOT': ['ain\'t', 'isn\'t'],
-'CONDITIONELSE': ['disagree', 'disrespect'],
-'CONDITIONIF': ['sayin', 'saying'],
-'DECLARATION': ['big', 'lil', 'those', 'who'],
-'DELETION': ['rid', 'ridda'],
-'FUNCTION': ['business'],
+'ARRAY': ['lot', 'lotta'],          // [ (array)
+'ARRAYEND': ['stuff'],              // ]
+'ASSIGNMENT': ['be', 'is'],         // =
+'BLOCK': ['then', 'piece'],         // {
+'BLOCKEND': ['okay'],               // }
+'BLOCKCOMMENT': ['listen'],         // /*
+'BLOCKCOMMENTEND': ['right'],       // */
+'COMMA': ['and'],                   // ,
+'COMPEQ': ['like'],                 // ===
+'COMPGREATER': ['more', 'mo'],      // >
+'COMPGREATEREQ': ['over'],          // >=
+'COMPLESS': ['less'],               // <
+'COMPLESSEQ': ['under'],            // <=
+'COMPNOT': ['ain\'t', 'isn\'t'],    // !==
+'CONDITIONELSE': ['disagree', 'disrespect'],        // else
+'CONDITIONIF': ['sayin', 'saying'],                 // if
+'DECLARATION': ['big', 'lil', 'those', 'who'],      // var
+'DELETION': ['rid', 'ridda'],       // delete
+'FUNCTION': ['business'],           // function
+// Ignored tokens are not parsed:
 'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],
-'LINECOMMENT': ['cuz', 'so'],
-'LOGICAND': ['also'],
-'LOGICNOT': ['not'],
-'LOGICOR': ['or'],
-'LOOPFOR': ['rollin', 'rolling'],
-'LOOPWHILE': ['always', 'keep'],
-'MATHMINUS': ['smaller'],
-'MATHPLUS': ['bigger'],
-'NEW': ['get', 'make'],
-'PAREN': ['this', 'these'],
-'PARENEND': ['well'],
-'REFINE': ['with'],
-'REFINEEND': ['yeah'],
-'REFINEDOT': ['get', 'gotta'],
-'RETURN': ['rep', 'represent', 'show'],
-'SEMICOLON': ['uh'],
-'THIS': ['crib', 'here'],
-'VALNULL': ['nah'],
-'VALONE': ['one'],
-'VALTWO': ['two'],
-'VALUNDEFINED': ['unreal'],
-'VALZERO': ['nothin', 'nothing']
+'LINECOMMENT': ['cuz', 'so'],       // // (comment)
+'LOGICAND': ['also'],               // &&
+'LOGICNOT': ['not'],                // !
+'LOGICOR': ['or'],                  // ||
+'LOOPFOR': ['rollin', 'rolling'],   // for
+'LOOPWHILE': ['always', 'keep'],    // while
+'MATHMINUS': ['smaller'],           // -
+'MATHPLUS': ['bigger'],             // +
+'NEW': ['get', 'make'],             // new
+'PAREN': ['this', 'these'],         // (
+'PARENEND': ['well'],               // )
+'REFINE': ['with'],                 // [ (object property access)
+'REFINEEND': ['yeah'],              // ]
+'REFINEDOT': ['get', 'gotta'],      // . (object property access)
+'RETURN': ['rep', 'represent', 'show'],             // return
+'SEMICOLON': ['uh'],                // ;
+'THIS': ['crib', 'here'],           // this
+'VALNULL': ['nah'],                 // null
+'VALONE': ['one'],                  // 1
+'VALTWO': ['two'],                  // 2
+'VALUNDEFINED': ['unreal'],         // undefined
+'VALZERO': ['nothin', 'nothing']    // 0
 ```
+
+## License
+SpitScript by Isaac Lyman is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
