@@ -69,6 +69,9 @@ If you're having trouble getting your code to work, call `window.ss.compile` wit
 ### Is SpitScript broken?
 Yeah, some things are broken. I'm working on it.
 
+- Comments (both line and block comments) may not work as expected.
+- Not all language features have been tested, so your mileage may vary.
+
 ### How did this project come about?
 I was bored. I'm a programmer by profession but I enjoy listening to and writing rap music. This is the collision of those worlds.
 
