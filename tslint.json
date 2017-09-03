@@ -1,0 +1,63 @@
+{
+    "rules": {
+        "arrow-parens": true,
+        "ban": [
+            true,
+            {
+                "name": "parseInt",
+                "message": "Use the \"Number()\" constructor instead. If a Number type is not necessary, use \"*.toString()\"."
+            }
+        ],
+        "curly": true,
+        "cyclomatic-complexity": [
+            true,
+            25
+        ],
+        "indent": [
+            true,
+            "spaces",
+            2
+        ],
+        "member-access": [
+            true,
+            "check-accessor",
+            "check-constructor"
+        ],
+        "no-conditional-assignment": true,
+        "no-empty": true,
+        "no-invalid-template-strings": true,
+        "no-irregular-whitespace": true,
+        "no-magic-numbers": true,
+        "no-misused-new": true,
+        "no-reference": true,
+        "no-string-literal": true,
+        "no-trailing-whitespace": true,
+        "no-unused-expression": [
+            true,
+            "allow-new"
+        ],
+        "no-unused-variable": [
+            true,
+            {
+                "ignore-pattern": "^_"
+            }
+        ],
+        "no-var-keyword": true,
+        "number-literal-format": true,
+        "object-literal-sort-keys": true,
+        "prefer-const": true,
+        "prefer-for-of": true,
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "semicolon": [
+            true,
+            "never"
+        ],
+        "strict-type-predicates": true,
+        "triple-equals": true,
+        "typeof-compare": true,
+        "use-isnan": true
+    }
+}

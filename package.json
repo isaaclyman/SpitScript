@@ -1,0 +1,40 @@
+{
+  "name": "spitscript",
+  "version": "1.0.0",
+  "description": "A rap vocabulary that transpiles to JavaScript",
+  "main": "src/compiler.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tsc && ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaaclyman/SpitScript.git"
+  },
+  "author": "Isaac Lyman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isaaclyman/SpitScript/issues"
+  },
+  "homepage": "https://github.com/isaaclyman/SpitScript#readme",
+  "devDependencies": {
+    "ava": "^0.22.0",
+    "typescript": "^2.5.2"
+  },
+  "ava": {
+    "files": [
+			"dist/test/**/*.spec.js"
+		],
+		"source": [
+      "src/**/*.ts",
+      "test/**/*.ts"
+		],
+		"concurrency": 5,
+		"failWithoutAssertions": true,
+		"powerAssert": true,
+		"require": [],
+		"babel": "inherit"
+  }
+}
