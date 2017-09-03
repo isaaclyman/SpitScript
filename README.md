@@ -44,7 +44,22 @@ okay
 ```
 
 ### How do I run SpitScript?
-Load `tokenizer.js`, `parser.js`, `generator.js` and `compiler.js` in `<script>` tags, then run `window.ss.compile(source)`, where `source` is the source text of your SpitScript. It will be transpiled and evaluated immediately.
+SpitScript is written in TypeScript and compiled to ES5 with UMD module definitions. In a TypeScript project, you can do this:
+
+```ts
+import compile from 'src/compiler'
+let spitScript: string = ... // The source text of your SpitScript
+compile(spitScript) // Immediately compiles and evaluates your SpitScript
+```
+
+In a regular JavaScript project, you can use CommonJS `require()` syntax to load the compiler from the dist/src/ directory.
+
+At present, there is no global fallback for Node or the browser.
+
+### How do I run the unit tests?
+You should have TypeScript and Ava installed globally, or run `npm install` and refer to them in their respective node_modules folders.
+
+First, compile the test/ folder with TypeScript (this is done automatically when you run `tsc` from the root folder). Then run `ava` from the root folder.
 
 ### How does it work?
 The transpiler is based on James Kyle's [Super Tiny Compiler](https://github.com/thejameskyle/the-super-tiny-compiler), licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Perhaps 10% of my codebase at present is drawn directly from that project. If you haven't checked it out, you should do so right away. It's a superb introduction to what compilers and transpilers do. (James Kyle does not endorse SpitScript.)
@@ -62,7 +77,9 @@ String literals can be created using either single or double quotes. In order to
 
 `console get log this 'Elmo\\'s world' well`
 
-If you're having trouble getting your code to work, call `window.ss.compile` with `true` as the second parameter. This will enable copious amounts of debugging output in the browser console.
+If you're having trouble getting your code to work, call `compile` with `true` as the second parameter. This will enable copious amounts of debugging output in the browser console.
+
+If you'd like to examine the compilation output rather than evaluating it immediately, call `compile` with `true` as the third parameter. This will return the resulting JavaScript and will not evaluate it.
 
 ## FAQ
 

@@ -6,14 +6,14 @@
             "es6",
             "dom"
         ],
-        "module": "commonjs",
+        "module": "umd",
         "moduleResolution": "node",
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "outDir": "./dist",
         "sourceMap": true,
         "strict": true,
-        "target": "es2015",
+        "target": "es5",
         "baseUrl": "./src",
         "paths": {
             "@/*": [
