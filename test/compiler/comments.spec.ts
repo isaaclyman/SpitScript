@@ -10,7 +10,7 @@ test('compiles a single-line SpitScript comment to a JS comment', t => {
     so if y'all feel me, reach up toward the ceiling
     `
 
-    const code = compile(ss, true, true) || ''
+    const code = compile(ss, false, true) || ''
     const expectedCode = `
     // if y'all feel me, reach up toward the ceiling
     `
@@ -18,7 +18,7 @@ test('compiles a single-line SpitScript comment to a JS comment', t => {
     t.true(assert.codeEquals(code, expectedCode))
 })
 
-test.failing('compiles a block SpitScript comment to a JS comment, preserving whitespace', t => {
+test('compiles a block SpitScript comment to a JS comment, preserving whitespace', t => {
     const ss = `
     listen
     mo money, mo problems

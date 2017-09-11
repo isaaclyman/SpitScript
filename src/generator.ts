@@ -84,7 +84,11 @@ const generate = function(node: Ast | Node, isDebug: boolean = false): string {
   node = (<Node>node)
   if (node.children && node.children.length) {
     if (node.type === 'BLOCKCOMMENT' || node.type === 'LINECOMMENT') {
-      word += node.children.map(el => el.value).join('')
+      const childrenToGenerate = node.children.slice(0, -1)
+      const childrenCode = childrenToGenerate.map(el => el.value).join('')
+      const lastChild = node.children[node.children.length - 1]
+
+      word += childrenCode + generate(lastChild, isDebug)
     } else {
       word += node.children.map(el => generate(el, isDebug)).join('')
     }

@@ -83,7 +83,10 @@
         node = node;
         if (node.children && node.children.length) {
             if (node.type === 'BLOCKCOMMENT' || node.type === 'LINECOMMENT') {
-                word += node.children.map(function (el) { return el.value; }).join('');
+                var childrenToGenerate = node.children.slice(0, -1);
+                var childrenCode = childrenToGenerate.map(function (el) { return el.value; }).join('');
+                var lastChild = node.children[node.children.length - 1];
+                word += childrenCode + generate(lastChild, isDebug);
             }
             else {
                 word += node.children.map(function (el) { return generate(el, isDebug); }).join('');

@@ -15,11 +15,11 @@
     // The compiler...
     ava_1.default('compiles a single-line SpitScript comment to a JS comment', function (t) {
         var ss = "\n    so if y'all feel me, reach up toward the ceiling\n    ";
-        var code = compiler_1.default(ss, true, true) || '';
+        var code = compiler_1.default(ss, false, true) || '';
         var expectedCode = "\n    // if y'all feel me, reach up toward the ceiling\n    ";
         t.true(assert_1.default.codeEquals(code, expectedCode));
     });
-    ava_1.default.failing('compiles a block SpitScript comment to a JS comment, preserving whitespace', function (t) {
+    ava_1.default('compiles a block SpitScript comment to a JS comment, preserving whitespace', function (t) {
         var ss = "\n    listen\n    mo money, mo problems\n    right\n    ";
         var code = compiler_1.default(ss, false, true) || '';
         var expectedCode = "\n    /*\n    mo money, mo problems\n    */\n    ";
