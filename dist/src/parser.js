@@ -9,7 +9,7 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var wordTypes = {
+    exports.wordTypes = {
         'ARRAY': ['lot', 'lotta'],
         'ARRAYEND': ['stuff'],
         'ASSIGNMENT': ['be', 'is'],
@@ -28,6 +28,7 @@
         'CONDITIONIF': ['sayin', 'saying'],
         'DECLARATION': ['big', 'lil', 'those', 'who'],
         'DELETION': ['rid', 'ridda'],
+        'DELIMIT': ['to'],
         'FUNCTION': ['business'],
         // Ignored tokens are not parsed:
         'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],
@@ -39,7 +40,7 @@
         'LOOPWHILE': ['always', 'keep'],
         'MATHMINUS': ['smaller'],
         'MATHPLUS': ['bigger'],
-        'NEW': ['get', 'make'],
+        'NEW': ['make'],
         'PAREN': ['this', 'these'],
         'PARENEND': ['well'],
         'REFINE': ['with'],
@@ -54,6 +55,7 @@
         'VALUNDEFINED': ['unreal'],
         'VALZERO': ['nothin', 'nothing'] // 0
     };
+    var unnestedTypes = ['BLOCKCOMMENT', 'LINECOMMENT'];
     var childrenTypes = {
         'ARRAY': 'ARRAYEND',
         'BLOCK': 'BLOCKEND',
@@ -78,7 +80,7 @@
             }
         }
         return wordsDict;
-    })(wordTypes);
+    })(exports.wordTypes);
     var parse = function (tokens, isDebug) {
         if (isDebug === void 0) { isDebug = false; }
         /*
@@ -89,11 +91,12 @@
             console.log('PARSER...');
             console.log("Parsing " + tokens.length + " tokens.");
         }
-        function walk() {
+        function walk(isNestable) {
+            if (isNestable === void 0) { isNestable = true; }
             // Types are: NEWLINE, QUOTE, NUMBER, TOKEN, WORD
             var token = tokens[current];
             if (isDebug) {
-                console.log(current + 1 + ":", token);
+                console.log(current + 1 + ":", token, isNestable ? '' : '(NOT NESTABLE)');
             }
             if (!token) {
                 return;
@@ -138,26 +141,32 @@
                     current++;
                     return createNode(type, token.value);
                 }
+                // If the word is a type that can have children, but we're in a non-nesting segment,
+                //  return the word as-is.
+                if (!isNestable) {
+                    current++;
+                    return createNode(type, token.value);
+                }
                 // If the word is a type that can have children,
                 //  recurse over them until the end token is reached.
                 var node = createNode(type, token.value, true);
+                node.children = node.children || [];
                 var beginToken = token.value;
                 var endTokenType = childrenTypes[type];
+                var canNest = !~unnestedTypes.indexOf(type);
                 current++;
                 var innerToken = void 0;
                 while (type !== endTokenType) {
-                    innerToken = walk();
+                    innerToken = walk(canNest);
                     if (!innerToken) {
                         throw new Error("Failed to discover end token of type [" + endTokenType + "] to match token [" + words[beginToken] + " " + beginToken + "].");
                     }
-                    node.children = node.children || [];
                     node.children.push(innerToken);
-                    token = innerToken;
-                    if (token.value) {
-                        type = words[token.value] || token.type;
+                    if (innerToken.value) {
+                        type = words[innerToken.value] || innerToken.type;
                     }
                     else {
-                        type = token.type;
+                        type = innerToken.type;
                     }
                 }
                 return node;

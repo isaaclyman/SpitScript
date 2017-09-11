@@ -17,6 +17,7 @@
         'BLOCKEND': '}',
         'BLOCKCOMMENT': '/*',
         'BLOCKCOMMENTEND': '*/',
+        'COMMA': ',',
         'COMPEQ': ' === ',
         'COMPGREATER': ' > ',
         'COMPGREATEREQ': ' >= ',
@@ -27,6 +28,7 @@
         'CONDITIONIF': 'if ',
         'DECLARATION': 'var ',
         'DELETION': 'delete ',
+        'DELIMIT': ': ',
         'FUNCTION': 'function ',
         'IGNORED': '',
         'LINECOMMENT': '//',
@@ -82,11 +84,15 @@
         }
         node = node;
         if (node.children && node.children.length) {
-            if (node.type === 'BLOCKCOMMENT' || node.type === 'LINECOMMENT') {
-                var childrenToGenerate = node.children.slice(0, -1);
-                var childrenCode = childrenToGenerate.map(function (el) { return el.value; }).join('');
+            if (node.type === 'LINECOMMENT') {
+                // For line comments, the last word is a newline, whose value is appropriate to use as-is
+                word += node.children.map(function (el) { return el.value; }).join('');
+            }
+            else if (node.type === 'BLOCKCOMMENT') {
+                // For block comments, the last word is a SpitScript token, whose value needs to be generated
+                var commentLiteral = node.children.slice(0, -1).map(function (el) { return el.value; }).join('');
                 var lastChild = node.children[node.children.length - 1];
-                word += childrenCode + generate(lastChild, isDebug);
+                word += commentLiteral + generate(lastChild, isDebug);
             }
             else {
                 word += node.children.map(function (el) { return generate(el, isDebug); }).join('');

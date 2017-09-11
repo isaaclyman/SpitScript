@@ -1,10 +1,10 @@
 import { Token } from './tokenizer'
 
-interface WordTypeDict {
+export interface WordTypeDict {
   [type: string]: Array<string>
 }
 
-const wordTypes: WordTypeDict = {
+export const wordTypes: WordTypeDict = {
   'ARRAY': ['lot', 'lotta'],          // [ (array)
   'ARRAYEND': ['stuff'],              // ]
   'ASSIGNMENT': ['be', 'is'],         // =
@@ -23,6 +23,7 @@ const wordTypes: WordTypeDict = {
   'CONDITIONIF': ['sayin', 'saying'],                 // if
   'DECLARATION': ['big', 'lil', 'those', 'who'],      // var
   'DELETION': ['rid', 'ridda'],       // delete
+  'DELIMIT': ['to'],                  // : (object literal definitions)
   'FUNCTION': ['business'],           // function
   // Ignored tokens are not parsed:
   'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],
@@ -34,14 +35,14 @@ const wordTypes: WordTypeDict = {
   'LOOPWHILE': ['always', 'keep'],    // while
   'MATHMINUS': ['smaller'],           // -
   'MATHPLUS': ['bigger'],             // +
-  'NEW': ['get', 'make'],             // new
+  'NEW': ['make'],                    // new
   'PAREN': ['this', 'these'],         // (
   'PARENEND': ['well'],               // )
   'REFINE': ['with'],                 // [ (object property access)
   'REFINEEND': ['yeah'],              // ]
   'REFINEDOT': ['get', 'gotta'],      // . (object property access)
   'RETURN': ['rep', 'represent', 'show'],             // return
-  'SEMICOLON': ['uh'],                // 
+  'SEMICOLON': ['uh'],                // ;
   'THIS': ['crib', 'here'],           // this
   'VALNULL': ['nah'],                 // null
   'VALONE': ['one'],                  // 1
@@ -49,6 +50,8 @@ const wordTypes: WordTypeDict = {
   'VALUNDEFINED': ['unreal'],         // undefined
   'VALZERO': ['nothin', 'nothing']    // 0
 }
+
+const unnestedTypes: Array<string> = ['BLOCKCOMMENT', 'LINECOMMENT']
 
 interface ChildDict {
   [type: string]: string
@@ -103,12 +106,12 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
     console.log(`Parsing ${tokens.length} tokens.`)
   }
 
-  function walk(): Node | void {
+  function walk(isNestable: boolean = true): Node | void {
     // Types are: NEWLINE, QUOTE, NUMBER, TOKEN, WORD
     let token = tokens[current]
 
     if (isDebug) {
-      console.log(`${current + 1}:`, token)
+      console.log(`${current + 1}:`, token, isNestable ? '' : '(NOT NESTABLE)')
     }
 
     if (!token) {
@@ -164,29 +167,36 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
         return createNode(type, token.value)
       }
 
+      // If the word is a type that can have children, but we're in a non-nesting segment,
+      //  return the word as-is.
+      if (!isNestable) {
+        current++
+        return createNode(type, token.value)
+      }
+
       // If the word is a type that can have children,
       //  recurse over them until the end token is reached.
       const node = createNode(type, token.value, true)
+      node.children = node.children || []
       const beginToken = token.value
       const endTokenType = childrenTypes[type]
+      const canNest = !~unnestedTypes.indexOf(type)
       current++
 
       let innerToken
       while (type !== endTokenType) {
-        innerToken = walk()
+        innerToken = walk(canNest)
 
         if (!innerToken) {
           throw new Error(`Failed to discover end token of type [${endTokenType}] to match token [${words[beginToken]} ${beginToken}].`)
         }
 
-        node.children = node.children || []
         node.children.push(innerToken)
-        token = innerToken
 
-        if (token.value) {
-          type = words[token.value] || token.type
+        if (innerToken.value) {
+          type = words[innerToken.value] || innerToken.type
         } else {
-          type = token.type
+          type = innerToken.type
         }
       }
 

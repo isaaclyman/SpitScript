@@ -131,6 +131,7 @@ From `parser.js`:
 'CONDITIONIF': ['sayin', 'saying'],                 // if
 'DECLARATION': ['big', 'lil', 'those', 'who'],      // var
 'DELETION': ['rid', 'ridda'],       // delete
+'DELIMIT': ['to'],                  // : (object literal definitions)
 'FUNCTION': ['business'],           // function
 // Ignored tokens are not parsed:
 'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],

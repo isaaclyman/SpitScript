@@ -18,6 +18,21 @@ test('compiles a single-line SpitScript comment to a JS comment', t => {
     t.true(assert.codeEquals(code, expectedCode))
 })
 
+test('compiles two consecutive line comments with nesting words in them', t => {
+    const ss = `
+    so if y'all feel these well
+    cuz reach up toward these make
+    `
+
+    const code = compile(ss, false, true) || ''
+    const expectedCode = `
+    // if y'all feel these well
+    // reach up toward these make
+    `
+
+    t.true(assert.codeEquals(code, expectedCode))
+})
+
 test('compiles a block SpitScript comment to a JS comment, preserving whitespace', t => {
     const ss = `
     listen

@@ -12,6 +12,7 @@ const syntax: SyntaxDict = {
   'BLOCKEND': '}',
   'BLOCKCOMMENT': '/*',
   'BLOCKCOMMENTEND': '*/',
+  'COMMA': ',',
   'COMPEQ': ' === ',
   'COMPGREATER': ' > ',
   'COMPGREATEREQ': ' >= ',
@@ -22,6 +23,7 @@ const syntax: SyntaxDict = {
   'CONDITIONIF': 'if ',
   'DECLARATION': 'var ',
   'DELETION': 'delete ',
+  'DELIMIT': ': ',
   'FUNCTION': 'function ',
   'IGNORED': '',
   'LINECOMMENT': '//',
@@ -83,12 +85,14 @@ const generate = function(node: Ast | Node, isDebug: boolean = false): string {
 
   node = (<Node>node)
   if (node.children && node.children.length) {
-    if (node.type === 'BLOCKCOMMENT' || node.type === 'LINECOMMENT') {
-      const childrenToGenerate = node.children.slice(0, -1)
-      const childrenCode = childrenToGenerate.map(el => el.value).join('')
+    if (node.type === 'LINECOMMENT') {
+      // For line comments, the last word is a newline, whose value is appropriate to use as-is
+      word += node.children.map(el => el.value).join('')
+    } else if (node.type === 'BLOCKCOMMENT') {
+      // For block comments, the last word is a SpitScript token, whose value needs to be generated
+      const commentLiteral = node.children.slice(0, -1).map(el => el.value).join('')
       const lastChild = node.children[node.children.length - 1]
-
-      word += childrenCode + generate(lastChild, isDebug)
+      word += commentLiteral + generate(lastChild, isDebug)
     } else {
       word += node.children.map(el => generate(el, isDebug)).join('')
     }

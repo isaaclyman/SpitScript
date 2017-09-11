@@ -21,5 +21,19 @@
         };
         t.deepEqual(ast, expectedAst);
     });
+    ava_1.default('has no duplicate words', function (t) {
+        var words = Object.keys(parser_1.wordTypes).reduce(function (acc, key) {
+            acc = acc.concat(parser_1.wordTypes[key]);
+            return acc;
+        }, []);
+        var grouped = words.reduce(function (acc, item) {
+            if (acc[item]) {
+                t.fail();
+            }
+            acc[item] = true;
+            return acc;
+        }, {});
+        t.pass();
+    });
 });
 //# sourceMappingURL=parser.spec.js.map
