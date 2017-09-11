@@ -32,6 +32,7 @@
         'FUNCTION': ['business'],
         // Ignored tokens are not parsed:
         'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],
+        'JQUERY': ['dollar', 'dolla', 'money', 'cash', 'benjamins'],
         'LINECOMMENT': ['cuz', 'so'],
         'LOGICAND': ['also'],
         'LOGICNOT': ['not'],
@@ -49,6 +50,7 @@
         'RETURN': ['rep', 'represent', 'show'],
         'SEMICOLON': ['uh'],
         'THIS': ['crib', 'here'],
+        'UNDERSCORE': ['neath', '\'neath', 'underneath'],
         'VALNULL': ['nah'],
         'VALONE': ['one'],
         'VALTWO': ['two'],

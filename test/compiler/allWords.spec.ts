@@ -71,6 +71,8 @@ test('compiles every available word', t => {
         crib get stacks be nah
         here get ice be unreal
     okay
+	big my title be cash this 'head title' well she get my text she uh
+	who he in the world be you say underneath i cool gotta camelCase this 'stupid stuff' well they think i uh
 
     `
 
@@ -140,6 +142,8 @@ test('compiles every available word', t => {
         this.stacks = null
         this.ice = undefined
     }
+    var title = jQuery('head title').text;
+    var world = _.camelCase('stupid stuff');
     `
 
     assert.codeEquals(t, code, expectedCode)

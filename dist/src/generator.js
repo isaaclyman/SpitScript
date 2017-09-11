@@ -31,6 +31,7 @@
         'DELIMIT': ': ',
         'FUNCTION': 'function ',
         'IGNORED': '',
+        'JQUERY': 'jQuery',
         'LINECOMMENT': '//',
         'LOGICAND': ' && ',
         'LOGICNOT': '!',
@@ -50,6 +51,7 @@
         'SPACE': '',
         //  the node value will contain a space.
         'THIS': 'this',
+        'UNDERSCORE': '_',
         'VALNULL': 'null',
         'VALONE': '1',
         'VALTWO': '2',
