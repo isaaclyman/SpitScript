@@ -23,5 +23,11 @@
         var expectedCode = "var pusher\n    var bruh = []\n    \n    bruh[0] = 0\n    bruh[1] = 1\n    \n    for (pusher = 2;pusher <= 10;pusher++){\n    \n    bruh[pusher] = bruh[pusher-2]+bruh[pusher-1]\n    \n    console.log(bruh[pusher])\n    }";
         assert_1.default.codeEquals(t, code, expectedCode);
     });
+    ava_1.default('compiles the quote-escaping example program', function (t) {
+        var ss = "\n    console get log this 'Elmo\\'s world' well\n    ";
+        var code = compiler_1.default(ss, false, true) || '';
+        var expectedCode = "\n    console.log('Elmo\\'s world')\n    ";
+        assert_1.default.codeEquals(t, code, expectedCode);
+    });
 });
 //# sourceMappingURL=sanity.spec.js.map

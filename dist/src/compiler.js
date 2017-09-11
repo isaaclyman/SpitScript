@@ -15,6 +15,9 @@
     var compile = function (source, isDebug, isTest) {
         if (isDebug === void 0) { isDebug = false; }
         if (isTest === void 0) { isTest = false; }
+        if (isDebug) {
+            console.log('INPUT: ', source);
+        }
         var tokens = tokenizer_1.default(source, isDebug);
         var ast = parser_1.default(tokens, isDebug);
         var code = generator_1.default(ast, isDebug);

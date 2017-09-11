@@ -42,3 +42,16 @@ test('compiles the example SpitScript program', t => {
 
     assert.codeEquals(t, code, expectedCode)
 })
+
+test('compiles the quote-escaping example program', t => {
+    const ss = `
+    console get log this 'Elmo\\'s world' well
+    `
+
+    const code = compile(ss, false, true) || ''
+    const expectedCode = `
+    console.log('Elmo\\\'s world')
+    `
+
+    assert.codeEquals(t, code, expectedCode)
+})
