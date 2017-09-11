@@ -62,7 +62,7 @@ You should have TypeScript and Ava installed globally, or run `npm install` and 
 Run `npm test` (runs `tsc && ava`).
 
 ### How does it work?
-The transpiler is based on James Kyle's [Super Tiny Compiler](https://github.com/thejameskyle/the-super-tiny-compiler), licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Perhaps 10% of my codebase at present is drawn directly from that project. If you haven't checked it out, you should do so right away. It's a superb introduction to what compilers and transpilers do. (James Kyle does not endorse SpitScript.)
+The transpiler is based on James Kyle's [Super Tiny Compiler](https://github.com/thejameskyle/the-super-tiny-compiler), licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Perhaps 10% of my codebase at present is drawn directly from that project. If you haven't checked it out, you should do so right away. It's a superb introduction to what compilers and transpilers do. (James Kyle [does not endorse](https://twitter.com/thejameskyle/status/781351886309892096) SpitScript.)
 
 Essentially, the transpiler takes the source text and reads it one character at a time, grouping words, numbers and symbols along the way. Then it transforms the list into a hierarchy of "nodes" (top-level code elements) and "children" (groups of nodes that fit inside of other elements, like commands inside a block). Finally, it reads the hierarchy recursively, generating JavaScript for each node.
 
