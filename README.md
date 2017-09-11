@@ -136,6 +136,7 @@ From `parser.js`:
 'FUNCTION': ['business'],           // function
 // Ignored tokens are not parsed:
 'IGNORED': ['cool', 'fool', 'got', 'he', 'her', 'hey', 'him', 'his', 'hot', 'i', 'in', 'me', 'my', 'of', 'our', 'say', 'says', 'see', 'she', 'talk', 'talks', 'than', 'that', 'the', 'their', 'they', 'think', 'thinks', 'up', 'us', 'we', 'ya', 'yall', 'yo', 'you', 'your'],
+'JQUERY': ['dollar', 'dolla', 'money', 'cash', 'benjamins'], //jQuery
 'LINECOMMENT': ['cuz', 'so'],       // // (comment)
 'LOGICAND': ['also'],               // &&
 'LOGICNOT': ['not'],                // !
@@ -153,6 +154,7 @@ From `parser.js`:
 'RETURN': ['rep', 'represent', 'show'],             // return
 'SEMICOLON': ['uh'],                // ;
 'THIS': ['crib', 'here'],           // this
+'UNDERSCORE': ['neath', '\'neath', 'underneath'], //_ for lodash and underscore libraries
 'VALNULL': ['nah'],                 // null
 'VALONE': ['one'],                  // 1
 'VALTWO': ['two'],                  // 2

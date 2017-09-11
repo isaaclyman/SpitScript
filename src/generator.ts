@@ -26,6 +26,7 @@ const syntax: SyntaxDict = {
   'DELIMIT': ': ',
   'FUNCTION': 'function ',
   'IGNORED': '',
+  'JQUERY': 'jQuery',
   'LINECOMMENT': '//',
   'LOGICAND': ' && ',
   'LOGICNOT': '!',
@@ -45,6 +46,7 @@ const syntax: SyntaxDict = {
   'SPACE': '', // Yes, this is an empty string. In most cases the space has no semantic meaning. When it does (i.e. in comments),
                //  the node value will contain a space.
   'THIS': 'this',
+  'UNDERSCORE': '_',
   'VALNULL': 'null',
   'VALONE': '1',
   'VALTWO': '2',
