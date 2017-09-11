@@ -59,7 +59,7 @@ At present, there is no global fallback for Node or the browser.
 ### How do I run the unit tests?
 You should have TypeScript and Ava installed globally, or run `npm install` and refer to them in their respective node_modules folders.
 
-First, compile the test/ folder with TypeScript (this is done automatically when you run `tsc` from the root folder). Then run `ava` from the root folder.
+Run `npm test` (runs `tsc && ava`).
 
 ### How does it work?
 The transpiler is based on James Kyle's [Super Tiny Compiler](https://github.com/thejameskyle/the-super-tiny-compiler), licensed under [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). Perhaps 10% of my codebase at present is drawn directly from that project. If you haven't checked it out, you should do so right away. It's a superb introduction to what compilers and transpilers do. (James Kyle does not endorse SpitScript.)
