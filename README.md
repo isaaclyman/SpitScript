@@ -84,10 +84,11 @@ If you'd like to examine the compilation output rather than evaluating it immedi
 ## FAQ
 
 ### Is SpitScript broken?
-Yeah, some things are broken. I'm working on it.
+Not that I'm aware! In the latest version, comments work as expected and all language features are tested. If you find a bug, feel free to do one the following:
 
-- Comments (both line and block comments) may not work as expected.
-- Not all language features have been tested, so your mileage may vary.
+- Create an issue.
+- Submit a pull request containing an AVA test that uses `test.failing(...)` and demonstrates the issue in a minimal way.
+- Submit a pull request containing the above _and_ a fix for the bug.
 
 ### How did this project come about?
 I was bored. I'm a programmer by profession but I enjoy listening to and writing rap music. This is the collision of those worlds.
