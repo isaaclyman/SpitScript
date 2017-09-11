@@ -28,6 +28,7 @@
         'DECLARATION': 'var ',
         'DELETION': 'delete ',
         'FUNCTION': 'function ',
+        'IGNORED': '',
         'LINECOMMENT': '//',
         'LOGICAND': ' && ',
         'LOGICNOT': '!',

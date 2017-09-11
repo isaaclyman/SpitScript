@@ -23,6 +23,7 @@ const syntax: SyntaxDict = {
   'DECLARATION': 'var ',
   'DELETION': 'delete ',
   'FUNCTION': 'function ',
+  'IGNORED': '',
   'LINECOMMENT': '//',
   'LOGICAND': ' && ',
   'LOGICNOT': '!',
@@ -62,7 +63,7 @@ const generate = function(node: Ast | Node, isDebug: boolean = false): string {
         console.log('GENERATOR...')
       }
       
-      return (<Ast>node).body.map(function (el) { return generate(el, isDebug) }).join('')
+      return (<Ast>node).body.map(el => generate(el, isDebug)).join('')
     case 'NEWLINE':
       return '\n'
     case 'NAME':

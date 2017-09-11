@@ -100,18 +100,19 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
 
   if (isDebug) {
     console.log('PARSER...')
+    console.log(`Parsing ${tokens.length} tokens.`)
   }
 
-  function walk(): Node {
+  function walk(): Node | void {
     // Types are: NEWLINE, QUOTE, NUMBER, TOKEN, WORD
-    var token = tokens[current]
+    let token = tokens[current]
 
     if (isDebug) {
-      console.log(current + ': ', token)
+      console.log(`${current + 1}:`, token)
     }
 
     if (!token) {
-      throw new Error(`Parser had a problem. A token was undefined. Previous token: [${tokens[current - 1].type} ${tokens[current - 1].value}]`)
+      return
     }
 
     if (token.type === 'NEWLINE') {
@@ -142,12 +143,12 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
         return createNode('NAME', token.value)
       }
 
-      var type = words[token.value]
+      let type = words[token.value]
 
       // If this is an ignored word, skip it
       if (type === 'IGNORED') {
         current++
-        return walk()
+        return createNode('IGNORED', token.value)
       }
 
       // If the word is in our vocabulary but is not a type
@@ -159,25 +160,27 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
 
       // If the word is a type that can have children,
       //  recurse over them until the end token is reached.
-      var node = createNode(type, token.value, true)
-      var beginToken = token.value
-      var endTokenType = childrenTypes[type]
+      const node = createNode(type, token.value, true)
+      const beginToken = token.value
+      const endTokenType = childrenTypes[type]
       current++
 
-      var innerToken
+      let innerToken
       while (type !== endTokenType) {
         innerToken = walk()
+
+        if (!innerToken) {
+          throw new Error(`Failed to discover end token of type [${endTokenType}] to match token [${words[beginToken]} ${beginToken}].`)
+        }
 
         node.children = node.children || []
         node.children.push(innerToken)
         token = innerToken
 
-        if (!token) {
-          throw new Error(`Failed to discover end token of type [${endTokenType}] to match token [${words[beginToken]} ${beginToken}].`)
-        }
-
         if (token.value) {
           type = words[token.value]
+        } else {
+          type = token.type
         }
       }
 
@@ -187,13 +190,19 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
     throw new Error(`Parser had a problem. Unrecognized token: ${token}`)
   }
 
-  var ast: Ast = {
+  const ast: Ast = {
     type: 'PROGRAM',
     body: []
   }
 
   while (current < tokens.length) {
-    ast.body.push(walk())
+    const node = walk()
+
+    if (!node) {
+      break;
+    }
+
+    ast.body.push(node)
   }
 
   if (isDebug) {
@@ -210,7 +219,7 @@ export interface Node {
 }
 
 function createNode(type: string, value: string | null = null, hasChildren: boolean = false): Node {
-  var node: Node = {
+  const node: Node = {
     children: null,
     type: type,
     value: value

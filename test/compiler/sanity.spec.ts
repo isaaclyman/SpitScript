@@ -1,6 +1,7 @@
 import test from 'ava'
 
-import compile from '../src/compiler'
+import assert from '../helpers/assert'
+import compile from '../../src/compiler'
 
 // The compiler...
 
@@ -37,7 +38,7 @@ test('compiles the example SpitScript program', t => {
     bruh[pusher] = bruh[pusher-2]+bruh[pusher-1]
     
     console.log(bruh[pusher])
-    }`.replace(/    /g, '') // Strip out tabs before comparing
+    }`
 
-    t.deepEqual(code.trim(), expectedCode.trim())
+    t.true(assert.codeEquals(code, expectedCode))
 })

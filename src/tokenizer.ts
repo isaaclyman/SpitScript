@@ -1,4 +1,8 @@
-var types = {
+interface TypeDict {
+  [type: string]: RegExp
+}
+
+const types: TypeDict = {
   'NEWLINE': /[\n\r]/,
   'NUMBER': /[0-9\.]/,
   'QUOTE': /['"]/,

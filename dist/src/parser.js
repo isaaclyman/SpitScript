@@ -87,15 +87,16 @@
         var current = 0;
         if (isDebug) {
             console.log('PARSER...');
+            console.log("Parsing " + tokens.length + " tokens.");
         }
         function walk() {
             // Types are: NEWLINE, QUOTE, NUMBER, TOKEN, WORD
             var token = tokens[current];
             if (isDebug) {
-                console.log(current + ': ', token);
+                console.log(current + 1 + ":", token);
             }
             if (!token) {
-                throw new Error("Parser had a problem. A token was undefined. Previous token: [" + tokens[current - 1].type + " " + tokens[current - 1].value + "]");
+                return;
             }
             if (token.type === 'NEWLINE') {
                 current++;
@@ -124,7 +125,7 @@
                 // If this is an ignored word, skip it
                 if (type === 'IGNORED') {
                     current++;
-                    return walk();
+                    return createNode('IGNORED', token.value);
                 }
                 // If the word is in our vocabulary but is not a type
                 //  that can have children, return it as-is.
@@ -138,17 +139,20 @@
                 var beginToken = token.value;
                 var endTokenType = childrenTypes[type];
                 current++;
-                var innerToken;
+                var innerToken = void 0;
                 while (type !== endTokenType) {
                     innerToken = walk();
+                    if (!innerToken) {
+                        throw new Error("Failed to discover end token of type [" + endTokenType + "] to match token [" + words[beginToken] + " " + beginToken + "].");
+                    }
                     node.children = node.children || [];
                     node.children.push(innerToken);
                     token = innerToken;
-                    if (!token) {
-                        throw new Error("Failed to discover end token of type [" + endTokenType + "] to match token [" + words[beginToken] + " " + beginToken + "].");
-                    }
                     if (token.value) {
                         type = words[token.value];
+                    }
+                    else {
+                        type = token.type;
                     }
                 }
                 return node;
@@ -160,7 +164,11 @@
             body: []
         };
         while (current < tokens.length) {
-            ast.body.push(walk());
+            var node = walk();
+            if (!node) {
+                break;
+            }
+            ast.body.push(node);
         }
         if (isDebug) {
             console.log('PARSED AST: ', ast);
