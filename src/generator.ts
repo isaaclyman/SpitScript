@@ -40,6 +40,8 @@ const syntax: SyntaxDict = {
   'REFINEDOT': '.',
   'RETURN': 'return ',
   'SEMICOLON': ';',
+  'SPACE': '', // Yes, this is an empty string. In most cases the space has no semantic meaning. When it does (i.e. in comments),
+               //  the node value will contain a space.
   'THIS': 'this',
   'VALNULL': 'null',
   'VALONE': '1',
@@ -65,7 +67,6 @@ const generate = function(node: Ast | Node, isDebug: boolean = false): string {
       
       return (<Ast>node).body.map(el => generate(el, isDebug)).join('')
     case 'NEWLINE':
-      return '\n'
     case 'NAME':
     case 'NUMBER':
     case 'QUOTE':
@@ -82,7 +83,11 @@ const generate = function(node: Ast | Node, isDebug: boolean = false): string {
 
   node = (<Node>node)
   if (node.children && node.children.length) {
-    word += node.children.map(function (el) { return generate(el, isDebug) }).join('')
+    if (node.type === 'BLOCKCOMMENT' || node.type === 'LINECOMMENT') {
+      word += node.children.map(el => el.value).join('')
+    } else {
+      word += node.children.map(el => generate(el, isDebug)).join('')
+    }
   }
 
   return word

@@ -5,12 +5,12 @@ import compile from '../../src/compiler'
 
 // The compiler...
 
-test.failing('compiles a single-line SpitScript comment to a JS comment', t => {
+test('compiles a single-line SpitScript comment to a JS comment', t => {
     const ss = `
     so if y'all feel me, reach up toward the ceiling
     `
 
-    const code = compile(ss, false, true) || ''
+    const code = compile(ss, true, true) || ''
     const expectedCode = `
     // if y'all feel me, reach up toward the ceiling
     `

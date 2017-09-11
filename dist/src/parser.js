@@ -100,7 +100,11 @@
             }
             if (token.type === 'NEWLINE') {
                 current++;
-                return createNode('NEWLINE');
+                return createNode('NEWLINE', token.value);
+            }
+            if (token.type === 'SPACE') {
+                current++;
+                return createNode('SPACE', token.value);
             }
             if (token.type === 'QUOTE') {
                 current++;
@@ -122,7 +126,8 @@
                     return createNode('NAME', token.value);
                 }
                 var type = words[token.value];
-                // If this is an ignored word, skip it
+                // If this is an ignored word, add an ignored node
+                // This will usually be skipped on the generation step
                 if (type === 'IGNORED') {
                     current++;
                     return createNode('IGNORED', token.value);
@@ -149,7 +154,7 @@
                     node.children.push(innerToken);
                     token = innerToken;
                     if (token.value) {
-                        type = words[token.value];
+                        type = words[token.value] || token.type;
                     }
                     else {
                         type = token.type;

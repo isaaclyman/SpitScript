@@ -13,9 +13,9 @@
     var assert_1 = require("../helpers/assert");
     var compiler_1 = require("../../src/compiler");
     // The compiler...
-    ava_1.default.failing('compiles a single-line SpitScript comment to a JS comment', function (t) {
+    ava_1.default('compiles a single-line SpitScript comment to a JS comment', function (t) {
         var ss = "\n    so if y'all feel me, reach up toward the ceiling\n    ";
-        var code = compiler_1.default(ss, false, true) || '';
+        var code = compiler_1.default(ss, true, true) || '';
         var expectedCode = "\n    // if y'all feel me, reach up toward the ceiling\n    ";
         t.true(assert_1.default.codeEquals(code, expectedCode));
     });

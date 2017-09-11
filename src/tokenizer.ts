@@ -6,6 +6,7 @@ const types: TypeDict = {
   'NEWLINE': /[\n\r]/,
   'NUMBER': /[0-9\.]/,
   'QUOTE': /['"]/,
+  'SPACE': / /,
   'TOKEN': /[^a-zA-Z0-9$_'"\s]/,
   'WHITESPACE': /\s/,
   'WORD': /[a-zA-Z0-9$_']/,
@@ -30,7 +31,11 @@ const tokenize = function(input: string, isDebug: boolean = false): Array<Token>
 
     if (types.WHITESPACE.test(char)) {
       if (types.NEWLINE.test(char)) {
-        tokens.push(createToken('NEWLINE', null))
+        tokens.push(createToken('NEWLINE', '\n'))
+      }
+
+      if (types.SPACE.test(char)) {
+        tokens.push(createToken('SPACE', ' '))
       }
 
       current++

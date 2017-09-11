@@ -117,7 +117,12 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
 
     if (token.type === 'NEWLINE') {
       current++
-      return createNode('NEWLINE')
+      return createNode('NEWLINE', token.value)
+    }
+
+    if (token.type === 'SPACE') {
+      current++
+      return createNode('SPACE', token.value)
     }
 
     if (token.type === 'QUOTE') {
@@ -145,7 +150,8 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
 
       let type = words[token.value]
 
-      // If this is an ignored word, skip it
+      // If this is an ignored word, add an ignored node
+      // This will usually be skipped on the generation step
       if (type === 'IGNORED') {
         current++
         return createNode('IGNORED', token.value)
@@ -178,7 +184,7 @@ const parse = function(tokens: Array<Token>, isDebug: boolean = false) {
         token = innerToken
 
         if (token.value) {
-          type = words[token.value]
+          type = words[token.value] || token.type
         } else {
           type = token.type
         }

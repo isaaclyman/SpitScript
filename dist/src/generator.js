@@ -45,6 +45,8 @@
         'REFINEDOT': '.',
         'RETURN': 'return ',
         'SEMICOLON': ';',
+        'SPACE': '',
+        //  the node value will contain a space.
         'THIS': 'this',
         'VALNULL': 'null',
         'VALONE': '1',
@@ -67,7 +69,6 @@
                 }
                 return node.body.map(function (el) { return generate(el, isDebug); }).join('');
             case 'NEWLINE':
-                return '\n';
             case 'NAME':
             case 'NUMBER':
             case 'QUOTE':
@@ -81,7 +82,12 @@
         }
         node = node;
         if (node.children && node.children.length) {
-            word += node.children.map(function (el) { return generate(el, isDebug); }).join('');
+            if (node.type === 'BLOCKCOMMENT' || node.type === 'LINECOMMENT') {
+                word += node.children.map(function (el) { return el.value; }).join('');
+            }
+            else {
+                word += node.children.map(function (el) { return generate(el, isDebug); }).join('');
+            }
         }
         return word;
     };
