@@ -40,5 +40,5 @@ test('compiles the example SpitScript program', t => {
     console.log(bruh[pusher])
     }`
 
-    t.true(assert.codeEquals(code, expectedCode))
+    assert.codeEquals(t, code, expectedCode)
 })

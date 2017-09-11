@@ -36,5 +36,5 @@ test('has no duplicate words', t => {
         return acc
     }, {} as groupedItemsDict)
 
-    t.pass()
+    t.truthy(grouped)
 })

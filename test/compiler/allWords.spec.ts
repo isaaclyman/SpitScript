@@ -5,7 +5,7 @@ import compile from '../../src/compiler'
 
 // The compiler...
 
-test.failing('compiles every available word', t => {
+test('compiles every available word', t => {
     const ss = `
     lot stuff
     lotta stuff
@@ -129,7 +129,7 @@ test.failing('compiles every available word', t => {
     fella['biz'] === 1
     fella.biz === 1
     fella.biz === 1
-    function deals(criminals) {
+    function deals(criminals){
         if (criminals === null){
             return null
         }
@@ -142,5 +142,5 @@ test.failing('compiles every available word', t => {
     }
     `
 
-    t.true(assert.codeEquals(code, expectedCode))
+    assert.codeEquals(t, code, expectedCode)
 })

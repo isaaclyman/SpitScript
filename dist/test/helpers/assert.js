@@ -10,11 +10,11 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var assert = {
-        codeEquals: function (value, expected) {
+        codeEquals: function (context, value, expected) {
             // Remove tabs
             value = value.replace(/    /g, '');
             expected = expected.replace(/    /g, '');
-            return value.trim() === expected.trim();
+            context.is(value.trim(), expected.trim());
         }
     };
     exports.default = assert;

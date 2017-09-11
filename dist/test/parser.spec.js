@@ -33,7 +33,7 @@
             acc[item] = true;
             return acc;
         }, {});
-        t.pass();
+        t.truthy(grouped);
     });
 });
 //# sourceMappingURL=parser.spec.js.map

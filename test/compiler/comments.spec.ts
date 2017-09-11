@@ -15,7 +15,7 @@ test('compiles a single-line SpitScript comment to a JS comment', t => {
     // if y'all feel me, reach up toward the ceiling
     `
 
-    t.true(assert.codeEquals(code, expectedCode))
+    assert.codeEquals(t, code, expectedCode)
 })
 
 test('compiles two consecutive line comments with nesting words in them', t => {
@@ -30,7 +30,7 @@ test('compiles two consecutive line comments with nesting words in them', t => {
     // reach up toward these make
     `
 
-    t.true(assert.codeEquals(code, expectedCode))
+    assert.codeEquals(t, code, expectedCode)
 })
 
 test('compiles a block SpitScript comment to a JS comment, preserving whitespace', t => {
@@ -47,5 +47,5 @@ test('compiles a block SpitScript comment to a JS comment, preserving whitespace
     */
     `
 
-    t.true(assert.codeEquals(code, expectedCode))
+    assert.codeEquals(t, code, expectedCode)
 })

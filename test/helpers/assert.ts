@@ -1,10 +1,12 @@
+import { TestContext } from 'ava'
+
 const assert = {
-    codeEquals (value: string, expected: string): boolean {
+    codeEquals (context: TestContext, value: string, expected: string) {
         // Remove tabs
         value = value.replace(/    /g, '')
         expected = expected.replace(/    /g, '')
 
-        return value.trim() === expected.trim()
+        context.is(value.trim(), expected.trim())
     }
 }
 
